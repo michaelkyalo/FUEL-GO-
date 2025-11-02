@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
+// Components
+
+
+// Pages
+
+import Home from "./pages/Home";
+
+import About from "./pages/About";
+import FuelRide from "./pages/FuelRide";
+import FuelBoat from "./pages/FuelBoat";
+import FuelMyFleet from "./pages/FuelFleet";
+import Residential from "./pages/Residential";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <Navbar />
+      <div className="container my-4">
+        <Routes>
+          {/* 🔒 Redirect to login first */}
+    <Route path="/" element={<Navigate to="/home" replace />} />
+
+
+          {/* General Pages */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+
+          {/* Fuel Pages */}
+          <Route path="/fuel-ride" element={<FuelRide />} />
+          <Route path="/fuel-boat" element={<FuelBoat />} />
+          <Route path="/fuel-fleet" element={<FuelMyFleet />} />
+          <Route path="/residential" element={<Residential />} />
+
+          {/* Commercial Pages */}
+          <Route path="/commercial/generators" element={<Generators />} />
+          <Route path="/commercial/construction" element={<Construction />} />
+
+          {/* Orders Tracker */}
+          <Route path="/orders" element={<Orders />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;
