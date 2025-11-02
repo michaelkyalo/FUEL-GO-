@@ -1,52 +1,47 @@
 import { useState } from "react";
-import yatchImage from "../assets/yatch.png"; // ✅ Import background image
+import myRideImage from "../assets/myride.png"; // ✅ Import background image
 
-function FuelMyBoat() {
-  const [fuelType, setFuelType] = useState("");
+function FuelMyRide() {
   const [liters, setLiters] = useState("");
   const [price, setPrice] = useState(0);
+  const [fuelType, setFuelType] = useState("");
   const [message, setMessage] = useState("");
 
-  const prices = { petrol: 185, diesel: 175 };
+  // Set different price per litre depending on fuel type
+  const prices = {
+    petrol: 180,
+    diesel: 170,
+  };
 
   const handleOrder = () => {
-    if (!fuelType || liters <= 0) {
-      setMessage("Please select fuel type and enter valid litres");
+    if (!liters || liters <= 0 || !fuelType) {
+      setMessage("Please enter litres and select fuel type");
       return;
     }
+
     const total = liters * prices[fuelType];
     setPrice(total);
-    setMessage(`You ordered ${liters} litres of ${fuelType} for KSh ${total}`);
+    setMessage(
+      `You ordered ${liters} litres of ${fuelType} for KSh ${total.toLocaleString()}`
+    );
   };
 
   return (
-    <div
-      className="container py-5"
-      style={{
-        minHeight: "100vh",
-        backgroundImage: `url(${yatchImage})`, // ✅ Set background
-        backgroundSize: "contain", // ✅ Show full image
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundColor: "#000", // fallback color
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {/* Overlay for better text visibility */}
+    <div className="container py-4">
       <div
         className="card shadow-sm page-surface"
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.88)",
-          maxWidth: "500px",
-          width: "100%",
+          backgroundImage: `url(${myRideImage})`, // ✅ Background image
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          color: "white", // make text readable
         }}
       >
         <div className="card-body">
-          <h2 className="card-title text-danger">Fuel My Boat</h2>
+          <h2 className="card-title">Fuel My Ride</h2>
           <p className="card-text">
-            Keep your boat running smoothly with our marine fueling service.
+            Order fuel directly to your vehicle anywhere in Kenya.
           </p>
 
           <div className="mb-3">
@@ -73,15 +68,18 @@ function FuelMyBoat() {
             />
           </div>
 
-          <button className="btn btn-danger w-100" onClick={handleOrder}>
+          <button className="btn btn-danger" onClick={handleOrder}>
             Order Fuel
           </button>
 
           {price > 0 && (
             <div className="mt-3 alert alert-warning">
-              Total Price: KSh {price}
+              <p className="mb-0">
+                Total Price: <strong>KSh {price.toLocaleString()}</strong>
+              </p>
             </div>
           )}
+
           {message && <p className="message mt-2">{message}</p>}
         </div>
       </div>
@@ -89,4 +87,4 @@ function FuelMyBoat() {
   );
 }
 
-export default FuelMyBoat;
+export default FuelMyRide;
