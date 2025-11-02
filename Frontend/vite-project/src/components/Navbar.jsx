@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 function Navbar() {
   const [showCommercial, setShowCommercial] = useState(false);
   const navigate = useNavigate();
-  const user = localStorage.getItem("fuelgo_user"); // check if logged in
+  const user = localStorage.getItem("fuelgo_user");
 
-  // 🧭 Logout handler
+
   const handleLogout = () => {
     localStorage.removeItem("fuelgo_user");
     navigate("/login");
@@ -70,6 +70,13 @@ function Navbar() {
               </Link>
             </li>
 
+            {/* ✅ Additives Page */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/additives">
+                Additives
+              </Link>
+            </li>
+
             {/* 🏢 Dropdown for commercial */}
             <li
               className="nav-item dropdown"
@@ -103,7 +110,7 @@ function Navbar() {
               </Link>
             </li>
 
-            {/* ✅ Show Login or Logout depending on login state */}
+            {}
             {!user ? (
               <li className="nav-item">
                 <Link className="nav-link" to="/login">

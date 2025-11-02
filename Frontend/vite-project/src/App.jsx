@@ -1,10 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Components
 import Navbar from "./components/Navbar";
 
-// Pages
+import FuelAdditives from "./pages/Additive"; // ✅ Additive page
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
@@ -35,6 +34,9 @@ function App() {
           <Route path="/fuel-boat" element={<FuelBoat />} />
           <Route path="/fuel-fleet" element={<FuelMyFleet />} />
           <Route path="/residential" element={<Residential />} />
+
+          {/* Additives Page */}
+          <Route path="/additives" element={<FuelAdditives />} />  {/* ✅ New route */}
 
           {/* Commercial Pages */}
           <Route path="/commercial/generators" element={<Generators />} />
