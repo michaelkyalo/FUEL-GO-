@@ -1,5 +1,5 @@
 import { useState } from "react";
-import yatchImage from "../assets/yatch.png"; // ✅ Import background image
+import yatchImage from "../assets/yatch.png"; 
 
 function FuelMyBoat() {
   const [fuelType, setFuelType] = useState("");
@@ -24,11 +24,11 @@ function FuelMyBoat() {
       className="container py-5"
       style={{
         minHeight: "100vh",
-        backgroundImage: `url(${yatchImage})`, // ✅ Set background
-        backgroundSize: "contain", // ✅ Show full image
+        backgroundImage: `url(${yatchImage})`, 
+        backgroundSize: "contain", 
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundColor: "#000", // fallback color
+        backgroundColor: "#000",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

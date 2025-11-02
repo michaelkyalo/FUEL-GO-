@@ -1,5 +1,5 @@
 import { useState } from "react";
-import myRideImage from "../assets/myride.png"; // ✅ Import background image
+import myRideImage from "../assets/myride.png"; 
 
 function FuelMyRide() {
   const [liters, setLiters] = useState("");
@@ -7,7 +7,7 @@ function FuelMyRide() {
   const [fuelType, setFuelType] = useState("");
   const [message, setMessage] = useState("");
 
-  // Set different price per litre depending on fuel type
+
   const prices = {
     petrol: 180,
     diesel: 170,

@@ -1,5 +1,5 @@
 import React from "react";
-import fuelLogo from "../assets/fuel.png"; // adjust path based on your folder structure
+import fuelLogo from "../assets/fuel.png"; 
 
 function About() {
   return (

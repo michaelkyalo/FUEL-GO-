@@ -1,5 +1,5 @@
 import { useState } from "react";
-import background from "../assets/residence.png"; // ✅ Import the image
+import background from "../assets/residence.png"; 
 
 function Residential() {
   const [fuelType, setFuelType] = useState("");
@@ -27,7 +27,7 @@ function Residential() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        minHeight: "100vh", // full height
+        minHeight: "100vh", 
       }}
     >
       <div className="card shadow-sm page-surface bg-light bg-opacity-75">

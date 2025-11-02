@@ -1,22 +1,25 @@
 import { useState } from "react";
-import lorriesImage from "../assets/lorries.png"; // ✅ Import your background image
+import lorriesImage from "../assets/lorries.png"; 
 
 function FuelMyFleet() {
   const [fuelType, setFuelType] = useState("");
   const [liters, setLiters] = useState("");
+  const [numVehicles, setNumVehicles] = useState(1); 
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
 
   const prices = { petrol: 175, diesel: 165 };
 
   const handleOrder = () => {
-    if (!fuelType || liters <= 0) {
-      setMessage("Please select fuel type and enter valid litres");
+    if (!fuelType || liters <= 0 || numVehicles <= 0) {
+      setMessage("Please select fuel type, enter valid litres, and number of vehicles");
       return;
     }
-    const total = liters * prices[fuelType];
+    const total = liters * prices[fuelType] * numVehicles; 
     setPrice(total);
-    setMessage(`You ordered ${liters} litres of ${fuelType} for KSh ${total}`);
+    setMessage(
+      `You ordered ${liters} litres of ${fuelType} for ${numVehicles} vehicle(s) for KSh ${total}`
+    );
   };
 
   return (
@@ -24,11 +27,11 @@ function FuelMyFleet() {
       className="container fuel-page py-4"
       style={{
         minHeight: "100vh",
-        backgroundImage: `url(${lorriesImage})`, // ✅ Background applied
-        backgroundSize: "contain", // shows full image without cropping
+        backgroundImage: `url(${lorriesImage})`,
+        backgroundSize: "contain",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundColor: "#000", // fills behind image
+        backgroundColor: "#000",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -37,7 +40,7 @@ function FuelMyFleet() {
       <div
         className="card shadow-sm page-surface"
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.9)", // readable overlay
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
           maxWidth: "500px",
           width: "100%",
         }}
@@ -62,13 +65,26 @@ function FuelMyFleet() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Litres</label>
+            <label className="form-label">Litres per Vehicle</label>
             <input
               className="form-control"
               type="number"
               placeholder="Enter litres"
               value={liters}
               onChange={(e) => setLiters(e.target.value)}
+            />
+          </div>
+
+          {/* ✅ New input for number of vehicles */}
+          <div className="mb-3">
+            <label className="form-label">Number of Vehicles</label>
+            <input
+              className="form-control"
+              type="number"
+              min="1"
+              placeholder="Enter number of vehicles"
+              value={numVehicles}
+              onChange={(e) => setNumVehicles(e.target.value)}
             />
           </div>
 
@@ -81,6 +97,7 @@ function FuelMyFleet() {
               onClick={() => {
                 setFuelType("");
                 setLiters("");
+                setNumVehicles(1); 
                 setPrice(0);
                 setMessage("");
               }}

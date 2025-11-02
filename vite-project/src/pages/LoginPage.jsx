@@ -10,11 +10,11 @@ function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Simple mock login
+   
     if (name && password) {
-      localStorage.setItem("fuelgo_user", name); // save name/company
+      localStorage.setItem("fuelgo_user", name); 
       setMessage("Login successful!");
-      navigate("/home"); // ✅ Go to home page after login
+      navigate("/home"); 
     } else {
       setMessage("Please enter your name/company and password");
     }

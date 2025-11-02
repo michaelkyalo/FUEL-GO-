@@ -6,7 +6,7 @@ function Construction() {
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
 
-  // Example price per litre for each fuel type
+ 
   const prices = { petrol: 175, diesel: 165 };
 
   const handleOrder = () => {
