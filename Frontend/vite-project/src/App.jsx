@@ -2,8 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-
-import FuelAdditives from "./pages/Additive"; // ✅ Additive page
+import FuelAdditives from "./pages/Additive";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
@@ -15,35 +14,119 @@ import Generators from "./pages/commercial/Generators";
 import Construction from "./pages/commercial/Construction";
 import Orders from "./pages/Orders";
 
+function ProtectedRoute({ children }) {
+  const user = localStorage.getItem("fuelgo_user"); 
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
 function App() {
   return (
     <Router>
       <Navbar />
       <div className="container my-4">
         <Routes>
-          {/* 🔒 Redirect to login first */}
+          {/* Default redirect */}
           <Route path="/" element={<Navigate to="/home" replace />} />
 
-          {/* General Pages */}
+          {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
 
-          {/* Fuel Pages */}
-          <Route path="/fuel-ride" element={<FuelMyRide />} />
-          <Route path="/fuel-boat" element={<FuelBoat />} />
-          <Route path="/fuel-fleet" element={<FuelMyFleet />} />
-          <Route path="/residential" element={<Residential />} />
+          {/* Protected Routes */}
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* Additives Page */}
-          <Route path="/additives" element={<FuelAdditives />} />  {/* ✅ New route */}
+          <Route
+            path="/about"
+            element={
+              <ProtectedRoute>
+                <About />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* Commercial Pages */}
-          <Route path="/commercial/generators" element={<Generators />} />
-          <Route path="/commercial/construction" element={<Construction />} />
+          <Route
+            path="/fuel-ride"
+            element={
+              <ProtectedRoute>
+                <FuelMyRide />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* Orders Tracker */}
-          <Route path="/orders" element={<Orders />} />
+          <Route
+            path="/fuel-boat"
+            element={
+              <ProtectedRoute>
+                <FuelBoat />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/fuel-fleet"
+            element={
+              <ProtectedRoute>
+                <FuelMyFleet />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/residential"
+            element={
+              <ProtectedRoute>
+                <Residential />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/additives"
+            element={
+              <ProtectedRoute>
+                <FuelAdditives />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/commercial/generators"
+            element={
+              <ProtectedRoute>
+                <Generators />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/commercial/construction"
+            element={
+              <ProtectedRoute>
+                <Construction />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <Orders />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Catch-all redirect for invalid URLs */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </div>
     </Router>
