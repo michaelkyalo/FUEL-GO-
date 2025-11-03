@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Components
+
 import Navbar from "./components/Navbar";
 
-// Pages
+
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
@@ -16,32 +16,105 @@ import Generators from "./pages/commercial/Generators";
 import Construction from "./pages/commercial/Construction";
 import Orders from "./pages/Orders";
 
+function ProtectedRoute({ children }) {
+  const user = localStorage.getItem("fuelgo_user"); 
+  
+  return user ? children : <Navigate to="/login" replace />;
+}
+
 function App() {
+  const user = localStorage.getItem("fuelgo_user");
+
   return (
     <Router>
-      <Navbar />
+      {user && <Navbar />} {/* Show Navbar only if logged in */}
       <div className="container my-4">
         <Routes>
-          {/* 🔒 Redirect to login first */}
-          <Route path="/" element={<Navigate to="/home" replace />} />
+          {/* Redirect root based on login */}
+          <Route path="/" element={user ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />} />
 
-          {/* General Pages */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          {/* Public Login Route */}
+          <Route path="/login" element={user ? <Navigate to="/home" replace /> : <LoginPage />} />
 
-          {/* Fuel Pages */}
-          <Route path="/fuel-ride" element={<FuelMyRide />} />
-          <Route path="/fuel-boat" element={<FuelBoat />} />
-          <Route path="/fuel-fleet" element={<FuelMyFleet />} />
-          <Route path="/residential" element={<Residential />} />
+          {/* Protected Routes */}
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <ProtectedRoute>
+                <About />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fuel-ride"
+            element={
+              <ProtectedRoute>
+                <FuelMyRide />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fuel-boat"
+            element={
+              <ProtectedRoute>
+                <FuelBoat />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/fuel-fleet"
+            element={
+              <ProtectedRoute>
+                <FuelMyFleet />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/residential"
+            element={
+              <ProtectedRoute>
+                <Residential />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/commercial/generators"
+            element={
+              <ProtectedRoute>
+                <Generators />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/commercial/construction"
+            element={
+              <ProtectedRoute>
+                <Construction />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <Orders />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* Commercial Pages */}
-          <Route path="/commercial/generators" element={<Generators />} />
-          <Route path="/commercial/construction" element={<Construction />} />
-
-          {/* Orders Tracker */}
-          <Route path="/orders" element={<Orders />} />
+          {/* Catch-all: redirect based on login */}
+          <Route
+            path="*"
+            element={user ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />}
+          />
         </Routes>
       </div>
     </Router>
