@@ -1,10 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-
 import Navbar from "./components/Navbar";
-
-
+import FuelAdditives from "./pages/Additive";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
@@ -18,23 +16,23 @@ import Orders from "./pages/Orders";
 
 function ProtectedRoute({ children }) {
   const user = localStorage.getItem("fuelgo_user"); 
-  
-  return user ? children : <Navigate to="/login" replace />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
 }
 
 function App() {
-  const user = localStorage.getItem("fuelgo_user");
-
   return (
     <Router>
-      {user && <Navbar />} {/* Show Navbar only if logged in */}
+      <Navbar />
       <div className="container my-4">
         <Routes>
-          {/* Redirect root based on login */}
-          <Route path="/" element={user ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />} />
+          {/* Default redirect */}
+          <Route path="/" element={<Navigate to="/home" replace />} />
 
-          {/* Public Login Route */}
-          <Route path="/login" element={user ? <Navigate to="/home" replace /> : <LoginPage />} />
+          {/* Public Routes */}
+          <Route path="/login" element={<LoginPage />} />
 
           {/* Protected Routes */}
           <Route
@@ -45,6 +43,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/about"
             element={
@@ -53,6 +52,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/fuel-ride"
             element={
@@ -61,6 +61,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/fuel-boat"
             element={
@@ -69,6 +70,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/fuel-fleet"
             element={
@@ -77,6 +79,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/residential"
             element={
@@ -85,6 +88,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/additives"
+            element={
+              <ProtectedRoute>
+                <FuelAdditives />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/commercial/generators"
             element={
@@ -93,6 +106,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/commercial/construction"
             element={
@@ -101,6 +115,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/orders"
             element={
@@ -110,15 +125,12 @@ function App() {
             }
           />
 
-          {/* Catch-all: redirect based on login */}
-          <Route
-            path="*"
-            element={user ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />}
-          />
+          {/* Catch-all redirect for invalid URLs */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </div>
     </Router>
   );
 }
 
-export default App;
+export default App; 
