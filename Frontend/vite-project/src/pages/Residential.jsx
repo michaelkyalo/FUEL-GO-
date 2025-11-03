@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import background from "../assets/residence.png"; 
 
 function Residential() {
@@ -6,6 +7,7 @@ function Residential() {
   const [liters, setLiters] = useState("");
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const prices = { petrol: 180, diesel: 170 };
 
@@ -61,7 +63,7 @@ function Residential() {
             />
           </div>
 
-          <button className="btn btn-danger" onClick={handleOrder}>
+          <button className="btn btn-danger w-100" onClick={handleOrder}>
             Order Fuel
           </button>
 
@@ -71,6 +73,13 @@ function Residential() {
             </div>
           )}
           {message && <p className="message mt-2">{message}</p>}
+
+          <button 
+            className="btn btn-outline-danger mt-3 w-100" 
+            onClick={() => navigate("/")}
+          >
+            Back to Home
+          </button>
         </div>
       </div>
     </div>

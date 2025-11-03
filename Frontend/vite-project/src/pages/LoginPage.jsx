@@ -21,7 +21,7 @@ function LoginPage() {
   };
 
   const handleGuest = () => {
-    navigate("/home"); // ✅ Guest also goes to home
+    navigate("/home"); 
   };
 
   return (

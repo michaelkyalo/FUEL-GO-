@@ -1,12 +1,13 @@
 import { useState } from "react";
 import additivesImage from "../assets/additives.png"; 
+import { useNavigate } from "react-router-dom";
 
 function FuelAdditives() {
   const [additive, setAdditive] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
-
+  const navigate = useNavigate();
 
   const prices = {
     "engine oil": 1200,
@@ -17,6 +18,7 @@ function FuelAdditives() {
   const handleOrder = () => {
     if (!additive || quantity <= 0) {
       setMessage("Please select an additive and enter a valid quantity");
+      setPrice(0);
       return;
     }
     const total = quantity * prices[additive];
@@ -41,11 +43,7 @@ function FuelAdditives() {
     >
       <div
         className="card shadow-sm page-surface"
-        style={{
-          backgroundColor: "rgba(255, 255, 255, 0.88)",
-          maxWidth: "500px",
-          width: "100%",
-        }}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.88)", maxWidth: "500px", width: "100%" }}
       >
         <div className="card-body">
           <h2 className="card-title text-danger">Order Additives</h2>
@@ -55,15 +53,11 @@ function FuelAdditives() {
 
           <div className="mb-3">
             <label className="form-label">Additive</label>
-            <select
-              className="form-select"
-              value={additive}
-              onChange={(e) => setAdditive(e.target.value)}
-            >
+            <select className="form-select" value={additive} onChange={(e) => setAdditive(e.target.value)}>
               <option value="">Select Additive</option>
-              <option value="engine oil">Engine Oil</option>
-              <option value="fuel cleaner">Fuel Cleaner</option>
-              <option value="coolant">Coolant</option>
+              {Object.keys(prices).map((item) => (
+                <option key={item} value={item}>{item.charAt(0).toUpperCase() + item.slice(1)}</option>
+              ))}
             </select>
           </div>
 
@@ -78,16 +72,18 @@ function FuelAdditives() {
             />
           </div>
 
-          <button className="btn btn-danger w-100" onClick={handleOrder}>
+          <button className="btn btn-danger w-100 mb-2" onClick={handleOrder}>
             Order Additive
           </button>
 
-          {price > 0 && (
-            <div className="mt-3 alert alert-warning">
-              Total Price: KSh {price}
-            </div>
+          {/* Show message and total price together */}
+          {(price > 0 || message) && (
+            <p className="mt-2 alert alert-warning">{message}</p>
           )}
-          {message && <p className="message mt-2">{message}</p>}
+
+          <button className="btn btn-outline-danger w-100 mt-2" onClick={() => navigate("/")}>
+            Back to Home
+          </button>
         </div>
       </div>
     </div>

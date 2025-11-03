@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Construction() {
   const [fuelType, setFuelType] = useState("");
   const [liters, setLiters] = useState("");
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
- 
   const prices = { petrol: 175, diesel: 165 };
 
   const handleOrder = () => {
@@ -44,6 +45,10 @@ function Construction() {
 
       {price > 0 && <p>Total Price: KSh {price.toLocaleString()}</p>}
       {message && <p className="message">{message}</p>}
+
+      <button className="btn btn-outline-danger mt-2" onClick={() => navigate("/")}>
+        Back to Home
+      </button>
     </div>
   );
 }

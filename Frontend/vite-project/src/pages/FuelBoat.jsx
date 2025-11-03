@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import yatchImage from "../assets/yatch.png"; 
 
 function FuelMyBoat() {
@@ -6,6 +7,7 @@ function FuelMyBoat() {
   const [liters, setLiters] = useState("");
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const prices = { petrol: 185, diesel: 175 };
 
@@ -34,7 +36,6 @@ function FuelMyBoat() {
         justifyContent: "center",
       }}
     >
-      {/* Overlay for better text visibility */}
       <div
         className="card shadow-sm page-surface"
         style={{
@@ -83,10 +84,17 @@ function FuelMyBoat() {
             </div>
           )}
           {message && <p className="message mt-2">{message}</p>}
+
+          <button 
+            className="btn btn-outline-danger mt-3 w-100" 
+            onClick={() => navigate("/")}
+          >
+            Back to Home
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-export default FuelMyBoat;
+export default FuelMyBoat; 

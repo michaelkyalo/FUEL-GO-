@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Generators() {
   const [fuelType, setFuelType] = useState("");
   const [liters, setLiters] = useState("");
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
-
+  const navigate = useNavigate();
 
   const prices = { petrol: 175, diesel: 165 };
 
@@ -14,7 +15,6 @@ function Generators() {
       setMessage("Please select fuel type and enter valid litres");
       return;
     }
-
     const total = liters * prices[fuelType];
     setPrice(total);
     setMessage(
@@ -44,6 +44,10 @@ function Generators() {
 
       {price > 0 && <p>Total Price: KSh {price.toLocaleString()}</p>}
       {message && <p className="message">{message}</p>}
+
+      <button className="btn btn-outline-danger mt-3" onClick={() => navigate("/")}>
+        Back to Home
+      </button>
     </div>
   );
 }

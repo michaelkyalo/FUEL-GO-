@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import myRideImage from "../assets/myride.png"; 
 
 function FuelMyRide() {
@@ -6,7 +7,7 @@ function FuelMyRide() {
   const [price, setPrice] = useState(0);
   const [fuelType, setFuelType] = useState("");
   const [message, setMessage] = useState("");
-
+  const navigate = useNavigate();
 
   const prices = {
     petrol: 180,
@@ -31,11 +32,11 @@ function FuelMyRide() {
       <div
         className="card shadow-sm page-surface"
         style={{
-          backgroundImage: `url(${myRideImage})`, // ✅ Background image
+          backgroundImage: `url(${myRideImage})`, 
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          color: "white", // make text readable
+          color: "white",
         }}
       >
         <div className="card-body">
@@ -68,8 +69,13 @@ function FuelMyRide() {
             />
           </div>
 
-          <button className="btn btn-danger" onClick={handleOrder}>
+          <button className="btn btn-danger me-2" onClick={handleOrder}>
             Order Fuel
+          </button>
+
+          {/* 🏠 Back to Home button */}
+          <button className="btn btn-outline-light" onClick={() => navigate("/")}>
+            Back to Home
           </button>
 
           {price > 0 && (
