@@ -75,7 +75,7 @@ function FuelMyFleet() {
             />
           </div>
 
-          {/* ✅ New input for number of vehicles */}
+          {}
           <div className="mb-3">
             <label className="form-label">Number of Vehicles</label>
             <input
