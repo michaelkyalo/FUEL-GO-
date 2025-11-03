@@ -8,7 +8,6 @@ from auth import token_required, create_token
 
 app = Flask(__name__)
 
-# Database setup
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(BASE_DIR, 'fuel.db')}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -17,11 +16,9 @@ app.config["SECRET_KEY"] = "your-secret-key"
 CORS(app)
 db.init_app(app)
 
-# Create DB tables
 with app.app_context():
     db.create_all()
 
-# ---------------- AUTH ---------------- #
 
 @app.route("/api/register", methods=["POST"])
 def register():
@@ -60,7 +57,6 @@ def login():
 def me():
     return jsonify(request.current_user.to_dict())
 
-# ---------------- ORDERS ---------------- #
 
 @app.route("/api/orders", methods=["POST"])
 @token_required
