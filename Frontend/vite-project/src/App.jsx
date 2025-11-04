@@ -106,7 +106,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/commercial/construction"
             element={
@@ -125,7 +124,7 @@ function App() {
             }
           />
 
-          {/* Catch-all redirect for invalid URLs */}
+          {}
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </div>
