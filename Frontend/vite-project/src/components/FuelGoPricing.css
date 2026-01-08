@@ -1,0 +1,149 @@
+/* FuelGoPricing.css */
+
+/* Container with FuelGo gradient */
+div.max-w-xl {
+  background: linear-gradient(135deg, #ff7f50, #3182ce); /* orange to blue gradient */
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 6px 10px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #1a202c; /* default text color */
+}
+
+div.max-w-xl:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.07);
+}
+
+/* Headings */
+h2 {
+  color: #fff;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Labels */
+label.font-semibold {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Inputs & Selects */
+input[type="number"],
+select {
+  border: 2px solid #fff; /* visible border */
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  width: 100%;
+  background: #fff; /* white background for inputs & selects */
+  color: #1a202c; /* dark text for readability */
+  transition: all 0.2s ease;
+  appearance: none; /* removes default browser styling */
+}
+
+/* Custom dropdown arrow for selects */
+select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2rem; /* space for arrow */
+}
+
+/* Focus styles */
+input[type="number"]:focus,
+select:focus {
+  border-color: #ffbf00; /* FuelGo orange focus */
+  box-shadow: 0 0 6px rgba(255, 191, 0, 0.5);
+}
+
+/* Info Box */
+div.bg-gray-50 {
+  background: rgba(255,255,255,0.85);
+  border-radius: 15px;
+  border: 1px solid #fff;
+  color: #1a202c;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+div.bg-gray-50 p {
+  margin: 0.25rem 0;
+  font-weight: 500;
+}
+
+/* Decision Box */
+div.p-3.rounded {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+  color: #fff;
+  border-radius: 10px;
+}
+
+/* Status Colors */
+.bg-green-600 {
+  background: linear-gradient(135deg, #38a169, #2f855a);
+}
+
+.bg-yellow-500 {
+  background: linear-gradient(135deg, #ecc94b, #d69e2e);
+  color: #1a202c;
+}
+
+.bg-red-600 {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+}
+
+/* Button */
+button {
+  background: #ffbf00; /* FuelGo accent */
+  color: #1a202c;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 10px;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #e6ac00;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  div.max-w-xl {
+    padding: 1.5rem;
+    margin: 0 1rem;
+  }
+}
+/* Select with icons */
+select.order-type {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg fill='black' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7 2l2 5h6l2-5H7zm13 7h-2V6h2v3zm-3 1H5v9h12V10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;
+  background-size: 1.2rem;
+  padding-left: 2rem; /* space for icon */
+}
+
+/* Fuel Type select with fuel pump icon */
+select.fuel-type {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg fill='black' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 7h-1V3H6v4H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm-7 8H8v-4h4v4zm4-4h-2v4h2v-4zm2-6v2h-2V5h2z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;
+  background-size: 1.2rem;
+  padding-left: 2rem; /* space for icon */
+}
+
+
+

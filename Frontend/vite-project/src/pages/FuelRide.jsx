@@ -7,6 +7,7 @@ function FuelMyRide() {
   const [price, setPrice] = useState(0);
   const [fuelType, setFuelType] = useState("");
   const [message, setMessage] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const navigate = useNavigate();
 
   const prices = {
@@ -16,15 +17,40 @@ function FuelMyRide() {
 
   const handleOrder = () => {
     if (!liters || liters <= 0 || !fuelType) {
-      setMessage("Please enter litres and select fuel type");
+      setMessage("Please enter liters and select fuel type");
       return;
     }
 
     const total = liters * prices[fuelType];
     setPrice(total);
     setMessage(
-      `You ordered ${liters} litres of ${fuelType} for KSh ${total.toLocaleString()}`
+      `You ordered ${liters} liters of ${fuelType} for KSh ${total.toLocaleString()}`
     );
+  };
+
+  const handlePayment = () => {
+    if (!paymentMethod) {
+      alert("Please choose a payment method.");
+      return;
+    }
+
+    if (paymentMethod === "mpesa") {
+      alert(`Initiating M-Pesa payment of KSh ${price.toLocaleString()}`);
+      // api.post("/mpesa/stkpush", { amount: price });
+    }
+
+    if (paymentMethod === "airtel") {
+      alert(`Initiating Airtel Money payment of KSh ${price.toLocaleString()}`);
+      // integrate Airtel API later
+    }
+
+    if (paymentMethod === "cash") {
+      alert("Cash on delivery selected. Pay when the rider arrives.");
+    }
+
+    if (paymentMethod === "card") {
+      alert("Redirecting to secure card payment page...");
+    }
   };
 
   return (
@@ -32,7 +58,7 @@ function FuelMyRide() {
       <div
         className="card shadow-sm page-surface"
         style={{
-          backgroundImage: `url(${myRideImage})`, 
+          backgroundImage: `url(${myRideImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -59,11 +85,11 @@ function FuelMyRide() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Litres</label>
+            <label className="form-label">Liters</label>
             <input
               className="form-control"
               type="number"
-              placeholder="Enter litres"
+              placeholder="Enter liters"
               value={liters}
               onChange={(e) => setLiters(e.target.value)}
             />
@@ -73,8 +99,10 @@ function FuelMyRide() {
             Order Fuel
           </button>
 
-          {/* 🏠 Back to Home button */}
-          <button className="btn btn-outline-light" onClick={() => navigate("/")}>
+          <button
+            className="btn btn-outline-light"
+            onClick={() => navigate("/")}
+          >
             Back to Home
           </button>
 
@@ -87,6 +115,32 @@ function FuelMyRide() {
           )}
 
           {message && <p className="message mt-2">{message}</p>}
+
+          {/* ⭐ Payment Method Options */}
+          {price > 0 && (
+            <div className="mt-4">
+              <h5>Select Payment Method</h5>
+
+              <select
+                className="form-select"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
+                <option value="">Choose Payment Method</option>
+                <option value="mpesa">M-Pesa</option>
+                <option value="airtel">Airtel Money</option>
+                <option value="cash">Cash on Delivery</option>
+                <option value="card">Card Payment (Visa/Mastercard)</option>
+              </select>
+
+              <button
+                className="btn btn-success mt-3"
+                onClick={handlePayment}
+              >
+                Continue Payment
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

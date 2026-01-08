@@ -1,135 +1,88 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import FuelAdditives from "./pages/Additive";
+import RequireAuth from "./context/RequireAuth";
+import FuelGoPricing from "./pages/FuelNegotiation";
+
 import Home from "./pages/Home";
-import LoginPage from "./pages/LoginPage";
 import About from "./pages/About";
+import Services from "./pages/Services";
 import FuelMyRide from "./pages/FuelRide";
 import FuelBoat from "./pages/FuelBoat";
 import FuelMyFleet from "./pages/FuelFleet";
 import Residential from "./pages/Residential";
+import FuelAdditives from "./pages/Additive";
 import Generators from "./pages/commercial/Generators";
 import Construction from "./pages/commercial/Construction";
 import Orders from "./pages/Orders";
-
-function ProtectedRoute({ children }) {
-  const user = localStorage.getItem("fuelgo_user"); 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-}
+import Contact from "./pages/Contact";
+import LoginPage from "./pages/LoginPage";
+import Gas from "./pages/Gas";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("fuelgo_user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Invalid session user, clearing...", e);
+        sessionStorage.removeItem("fuelgo_user");
+      }
+    }
+  }, []);
+
   return (
     <Router>
-      <Navbar />
-      <div className="container my-4">
+      {user && <Navbar setUser={setUser} />}
+
+      <div
+        className="main-content"
+        style={{ marginLeft: user ? "240px" : "0", padding: "2rem" }}
+      >
         <Routes>
-          {/* Default redirect */}
-          <Route path="/" element={<Navigate to="/home" replace />} />
-
-          {/* Public Routes */}
-          <Route path="/login" element={<LoginPage />} />
-
-          {/* Protected Routes */}
           <Route
-            path="/home"
+            path="/login"
             element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
+              user ? <Navigate to="/home" replace /> : <LoginPage setUser={setUser} />
             }
           />
 
+          <Route path="/home" element={<RequireAuth user={user}><Home /></RequireAuth>} />
+          <Route path="/about" element={<RequireAuth user={user}><About /></RequireAuth>} />
+          <Route path="/services" element={<RequireAuth user={user}><Services /></RequireAuth>} />
+
+          <Route path="/fuel-ride" element={<RequireAuth user={user}><FuelMyRide /></RequireAuth>} />
+          <Route path="/fuel-boat" element={<RequireAuth user={user}><FuelBoat /></RequireAuth>} />
+          <Route path="/fuel-fleet" element={<RequireAuth user={user}><FuelMyFleet /></RequireAuth>} />
+          <Route path="/residential" element={<RequireAuth user={user}><Residential /></RequireAuth>} />
+          <Route path="/additives" element={<RequireAuth user={user}><FuelAdditives /></RequireAuth>} />
+
+          <Route path="/commercial/generators" element={<RequireAuth user={user}><Generators /></RequireAuth>} />
+          <Route path="/commercial/construction" element={<RequireAuth user={user}><Construction /></RequireAuth>} />
+
+          <Route path="/orders" element={<RequireAuth user={user}><Orders /></RequireAuth>} />
+          <Route path="/contact" element={<RequireAuth user={user}><Contact /></RequireAuth>} />
+          <Route path="/gas" element={<RequireAuth user={user}><Gas /></RequireAuth>} />
+
+          {/* 🔥 Smart pricing & negotiation */}
           <Route
-            path="/about"
-            element={
-              <ProtectedRoute>
-                <About />
-              </ProtectedRoute>
-            }
+            path="/pricing"
+            element={<RequireAuth user={user}><FuelGoPricing /></RequireAuth>}
           />
 
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route
-            path="/fuel-ride"
-            element={
-              <ProtectedRoute>
-                <FuelMyRide />
-              </ProtectedRoute>
-            }
+            path="*"
+            element={user ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />}
           />
-
-          <Route
-            path="/fuel-boat"
-            element={
-              <ProtectedRoute>
-                <FuelBoat />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/fuel-fleet"
-            element={
-              <ProtectedRoute>
-                <FuelMyFleet />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/residential"
-            element={
-              <ProtectedRoute>
-                <Residential />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/additives"
-            element={
-              <ProtectedRoute>
-                <FuelAdditives />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/commercial/generators"
-            element={
-              <ProtectedRoute>
-                <Generators />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/commercial/construction"
-            element={
-              <ProtectedRoute>
-                <Construction />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/orders"
-            element={
-              <ProtectedRoute>
-                <Orders />
-              </ProtectedRoute>
-            }
-          />
-
-          {}
-          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </div>
     </Router>
   );
 }
 
-export default App; 
+export default App;

@@ -1,0 +1,87 @@
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: #111;
+  color: #fff;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 2rem 1rem;
+}
+
+.sidebar-logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.sidebar-logo span {
+  color: #e63946;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.sidebar-nav a,
+.services-toggle {
+  text-decoration: none;
+  color: #fff;
+  padding: 0.6rem 0.8rem;
+  border-radius: 4px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-nav a.active {
+  background: #e63946;
+  color: white;
+}
+
+.services-menu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  gap: 0.4rem;
+}
+
+.arrow {
+  transition: transform 0.2s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Highlight Smart Pricing link */
+.services-menu a[href="/pricing"] {
+  background-color: #ffd700; /* gold color to stand out */
+  color: #000 !important;    /* black text for readability */
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  display: block;
+  margin: 0.25rem 0;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.services-menu a[href="/pricing"]:hover {
+  background-color: #ffc107; /* slightly darker gold on hover */
+  color: #000;
+  transform: translateX(3px);
+}
+
+/* Optional: add a small icon next to it */
+.services-menu a[href="/pricing"]::before {
+  content: "💰";
+  margin-right: 0.5rem;
+}
+

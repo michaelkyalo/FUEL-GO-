@@ -6,44 +6,70 @@ function Orders() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem("fuelOrders")) || [];
-    setOrders(savedOrders);
+    const user = localStorage.getItem("fuelgo_user");
+
+    if (!user) {
+      // Clear orders if logged out
+      localStorage.removeItem("fuelOrders");
+      setOrders([]);
+    } else {
+      const savedOrders = JSON.parse(localStorage.getItem("fuelOrders")) || [];
+      setOrders(savedOrders);
+    }
   }, []);
+
+  if (!orders || orders.length === 0) {
+    return (
+      <div className="container py-4">
+        <h2>Your Orders</h2>
+        <p>No orders yet.</p>
+        <button className="btn btn-outline-danger mt-3" onClick={() => navigate("/")}>
+          Back to Home
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="container py-4">
       <h2>Your Orders</h2>
-
-      {orders.length === 0 ? (
-        <p>No orders yet.</p>
-      ) : (
+      <div className="table-responsive">
         <table className="table table-bordered">
           <thead className="table-light">
             <tr>
               <th>#</th>
               <th>Source</th>
               <th>Fuel Type</th>
-              <th>Litres</th>
-              <th>Price/Litre</th>
-              <th>Total Cost</th>
+              <th>Litres per Vehicle</th>
+              <th>Number of Vehicles</th>
+              <th>Price per Litre (KSh)</th>
+              <th>Total Cost (KSh)</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{order.source}</td>
-                <td>{order.fuelType}</td>
-                <td>{order.litres}</td>
-                <td>{order.pricePerLitre}</td>
-                <td>{order.totalCost}</td>
+                <td>{order.source || "N/A"}</td>
+                <td>{order.fuelType || "N/A"}</td>
+                <td>{order.litres ?? 0}</td>
+                <td>{order.numVehicles ?? 0}</td>
+                <td>
+                  {order.fuelType === "petrol"
+                    ? 175
+                    : order.fuelType === "diesel"
+                    ? 165
+                    : 0}
+                </td>
+                <td>{order.totalCost?.toLocaleString() ?? 0}</td>
+                <td>{order.date || "N/A"}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      )}
+      </div>
 
-      {}
       <button
         className="btn btn-outline-danger mt-3"
         onClick={() => navigate("/")}
@@ -54,4 +80,6 @@ function Orders() {
   );
 }
 
-export default Orders; 
+export default Orders;
+
+

@@ -1,88 +1,109 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import mytruck from "../assets/mytruck.png"; // 🖼️ Import your background image
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import slide1 from "../assets/slide1.png";
+import slide2 from "../assets/slide2.png";
+import slide3 from "../assets/slide3.png";
 
 function Home() {
+  const navigate = useNavigate();
+  const slides = [slide1, slide2, slide3]; // Add your images here
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto slide every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
   return (
-    <div
-      className="d-flex flex-column justify-content-start align-items-center pt-5"
-      style={{
-        height: "100vh",
-        textAlign: "center",
-        backgroundImage: `url(${mytruck})`,
-        backgroundSize: "cover", // make it cover entire page
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        color: "white", // make text visible on dark background
-      }}
-    >
-      {/* ✅ Overlay effect (optional for better text contrast) */}
+    <div style={{ minHeight: "100vh", position: "relative", overflow: "hidden", fontFamily: "'Poppins', sans-serif" }}>
+      {/* Slideshow */}
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          style={{
+            backgroundImage: `url(${slide})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            position: "absolute",
+            inset: 0,
+            opacity: index === currentSlide ? 1 : 0,
+            transition: "opacity 1.5s ease-in-out",
+          }}
+        ></div>
+      ))}
+
+      {/* Overlay */}
       <div
         style={{
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // dark overlay for readability
           position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: 0,
+          inset: 0,
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3))",
         }}
       ></div>
 
-      {/* ✅ Page Content */}
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <h1 className="mb-4 fw-bold text-danger bg-light p-2 rounded">
-          Welcome to FUELGO Kenya
+      {/* Hero content */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          textAlign: "center",
+          padding: "2rem",
+          color: "#fff",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "4rem",
+            fontWeight: "700",
+            marginBottom: "1rem",
+            background: "linear-gradient(90deg, #ffb703, #e63946, #ffb703)",
+            backgroundSize: "200% 200%",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            animation: "gradientAnimation 5s ease infinite",
+          }}
+        >
+          FuelGo Kenya
         </h1>
-        <p className="mb-5 text-light bg-dark p-2 rounded">
-          Select a service to get started
+        <p
+          style={{
+            fontSize: "1.3rem",
+            maxWidth: "700px",
+            lineHeight: "1.6",
+            marginBottom: "1rem",
+          }}
+        >
+          Delivering fuel solutions straight to your doorstep. 
         </p>
-
-        {/* ✅ Buttons in 2 columns × 4 rows */}
-        <div className="d-flex flex-column align-items-center">
-          <div className="d-flex justify-content-center mb-3 gap-3">
-            <Link to="/fuel-ride" className="btn btn-danger btn-lg px-4 py-3">
-              Fuel My Ride
-            </Link>
-            <Link to="/fuel-boat" className="btn btn-danger btn-lg px-4 py-3">
-              Fuel My Boat
-            </Link>
-          </div>
-
-          <div className="d-flex justify-content-center mb-3 gap-3">
-            <Link to="/additives" className="btn btn-danger btn-lg px-4 py-3">
-              Additives
-            </Link>
-            <Link
-              to="/commercial/generators"
-              className="btn btn-danger btn-lg px-4 py-3"
-            >
-              Generators
-            </Link>
-          </div>
-
-          <div className="d-flex justify-content-center mb-3 gap-3">
-            <Link to="/fuel-fleet" className="btn btn-danger btn-lg px-4 py-3">
-              Fuel My Fleet
-            </Link>
-            <Link to="/residential" className="btn btn-danger btn-lg px-4 py-3">
-              Residential
-            </Link>
-          </div>
-
-          <div className="d-flex justify-content-center gap-3">
-            <Link
-              to="/commercial/construction"
-              className="btn btn-danger btn-lg px-4 py-3"
-            >
-              Construction
-            </Link>
-            <Link to="/orders" className="btn btn-danger btn-lg px-4 py-3">
-              View Orders
-            </Link>
-          </div>
-        </div>
+        <p
+          style={{
+            fontSize: "1.1rem",
+            fontStyle: "italic",
+            color: "#ffb703",
+          }}
+        >
+          
+        </p>
       </div>
+
+      {/* CSS Animations */}
+      <style>
+        {`
+          @keyframes gradientAnimation {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+          }
+        `}
+      </style>
     </div>
   );
 }

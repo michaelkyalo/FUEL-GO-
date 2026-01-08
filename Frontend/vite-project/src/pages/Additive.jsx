@@ -7,6 +7,7 @@ function FuelAdditives() {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(""); // NEW
   const navigate = useNavigate();
 
   const prices = {
@@ -24,6 +25,31 @@ function FuelAdditives() {
     const total = quantity * prices[additive];
     setPrice(total);
     setMessage(`You ordered ${quantity} of ${additive} for KSh ${total}`);
+  };
+
+  const handlePayment = () => {
+    if (!paymentMethod) {
+      alert("Please choose a payment method.");
+      return;
+    }
+
+    if (paymentMethod === "mpesa") {
+      alert(`Initiating M-Pesa payment of KSh ${price.toLocaleString()}`);
+      // api.post("/mpesa/stkpush", { amount: price });
+    }
+
+    if (paymentMethod === "airtel") {
+      alert(`Initiating Airtel Money payment of KSh ${price.toLocaleString()}`);
+      // integrate Airtel API later
+    }
+
+    if (paymentMethod === "cash") {
+      alert("Cash on delivery selected. Pay when your order arrives.");
+    }
+
+    if (paymentMethod === "card") {
+      alert("Redirecting to secure card payment page...");
+    }
   };
 
   return (
@@ -76,14 +102,39 @@ function FuelAdditives() {
             Order Additive
           </button>
 
-          {/* Show message and total price together */}
+          <button className="btn btn-outline-danger w-100 mb-3" onClick={() => navigate("/")}>
+            Back to Home
+          </button>
+
+          {/* Show message and total price */}
           {(price > 0 || message) && (
             <p className="mt-2 alert alert-warning">{message}</p>
           )}
 
-          <button className="btn btn-outline-danger w-100 mt-2" onClick={() => navigate("/")}>
-            Back to Home
-          </button>
+          {/* Payment Options - only show after order */}
+          {price > 0 && (
+            <div className="mt-3">
+              <h5>Select Payment Method</h5>
+              <select
+                className="form-select"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
+                <option value="">Choose Payment Method</option>
+                <option value="mpesa">M-Pesa </option>
+                <option value="airtel">Airtel Money</option>
+                <option value="cash">Cash on Delivery</option>
+                <option value="card">Card Payment (Visa/Mastercard)</option>
+              </select>
+
+              <button
+                className="btn btn-success mt-3 w-100"
+                onClick={handlePayment}
+              >
+                Continue Payment
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
